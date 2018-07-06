@@ -22,6 +22,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		
+		<source.scripts.dir>${project.basedir}/src/main/scripts</source.scripts.dir>
+		<dist.dir>${project.basedir}/dist</dist.dir>
+		<dist.scripts.dir>${dist.dir}/scripts</dist.scripts.dir>
+		<dist.config.dir>${dist.dir}/config</dist.config.dir>
+		<dist.lib.dir>${dist.dir}/lib</dist.lib.dir>
 	</properties>
 
 	<dependencies>
@@ -56,7 +62,29 @@
 	</dependencies>
 
 	<build>
+	    <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>${project.basedir}/src/main/resources</directory>
+			</resource>
+		</resources>
 		<plugins>
+		    <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${dist.lib.dir}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
